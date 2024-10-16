@@ -42,7 +42,7 @@ export const DynamicForm: React.FC<DynamicFormProps> = ({ schema }) => {
       () => {
         toast.success('Data copied to clipboard');
       },
-      (err) => {
+      () => {
         toast.error('Failed to copy data to clipboard');
       },
     );
