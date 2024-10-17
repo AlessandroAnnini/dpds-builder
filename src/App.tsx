@@ -21,7 +21,7 @@ function App() {
         <span className="text-orange-600">
           Data Product Descriptor Specification{' '}
         </span>
-        Explore & Edit Edition
+        - Explore & Edit Edition
       </h2>
       <div className="mb-4">
         <Button variant="outline" onClick={handleUseDataProductSchemaBtn}>
