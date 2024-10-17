@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Form from '@rjsf/fluent-ui';
 import { useStore } from './store';
 import validator from '@rjsf/validator-ajv8';
@@ -29,6 +29,7 @@ const templates = {
 };
 
 export const DynamicForm: React.FC<DynamicFormProps> = ({ schema }) => {
+  const formRef = useRef<any>(null);
   const formData = useStore((state) => state.formData);
   const setFormData = useStore((state) => state.setFormData);
   const [didSubmit, setDidSubmit] = useState<boolean>(false);
@@ -50,11 +51,15 @@ export const DynamicForm: React.FC<DynamicFormProps> = ({ schema }) => {
     setDidSubmit(true);
   };
 
-  const handleReset = () => setFormData({});
+  const handleReset = () => {
+    setFormData({});
+    formRef.current?.reset();
+  };
 
   return (
     <>
       <Form
+        ref={formRef}
         schema={schema}
         formData={formData}
         onChange={handleChange}
