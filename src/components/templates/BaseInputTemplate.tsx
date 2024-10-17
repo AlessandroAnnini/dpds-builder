@@ -1,6 +1,5 @@
 import { ChangeEvent } from 'react';
 import { getInputProps, BaseInputTemplateProps } from '@rjsf/utils';
-import { Input } from '@/components/ui/input';
 import type { FocusEvent } from 'react';
 
 function BaseInputTemplate(props: BaseInputTemplateProps) {
@@ -20,8 +19,8 @@ function BaseInputTemplate(props: BaseInputTemplateProps) {
     onChangeOverride,
     onBlur,
     onFocus,
-    rawErrors,
-    hideError,
+    // rawErrors,
+    // hideError,
     ...rest
   } = props;
   const onTextChange = ({
@@ -38,7 +37,7 @@ function BaseInputTemplate(props: BaseInputTemplateProps) {
   }: FocusEvent<HTMLInputElement>) => onFocus(id, val);
 
   const inputProps = { ...rest, ...getInputProps(schema, type, options) };
-  const hasError = rawErrors && rawErrors.length > 0 && !hideError;
+  // const hasError = rawErrors && rawErrors.length > 0 && !hideError;
 
   return (
     <input
@@ -50,8 +49,8 @@ function BaseInputTemplate(props: BaseInputTemplateProps) {
       disabled={disabled}
       readOnly={readonly}
       autoFocus={autofocus}
-      error={hasError}
-      errors={hasError ? rawErrors : undefined}
+      // error={hasError}
+      // errors={hasError ? rawErrors : undefined}
       onChange={onChangeOverride || onTextChange}
       onBlur={onTextBlur}
       onFocus={onTextFocus}
