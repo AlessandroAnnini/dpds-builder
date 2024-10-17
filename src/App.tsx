@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { SchemaLoader } from './SchemaLoader';
 import { DynamicForm } from './DynamicForm';
 import { Button } from '@/components/ui/button';
+import { version } from '../package.json';
 
 function App() {
   const [schema, setSchema] = useState<any>();
@@ -37,6 +38,9 @@ function App() {
           <DynamicForm schema={schema} />
         </div>
       )}
+      <div className="fixed bottom-4 right-4 text-sm text-gray-400">
+        v{version}
+      </div>
     </div>
   );
 }
