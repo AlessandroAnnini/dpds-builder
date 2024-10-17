@@ -1,7 +1,7 @@
 {
   "name": "dpds-builder",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.2",
   "type": "module",
   "author": "Alessandro Annini",
   "scripts": {
