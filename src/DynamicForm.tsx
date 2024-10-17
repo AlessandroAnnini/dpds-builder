@@ -35,21 +35,18 @@ export const DynamicForm: React.FC<DynamicFormProps> = ({ schema }) => {
 
   const handleChange = (e: any) => {
     setFormData(e.formData);
-    const dataStr = JSON.stringify(e.formData, null, 2);
-
-    // copy to clipboard
-    navigator.clipboard.writeText(dataStr).then(
-      () => {
-        toast.success('Data copied to clipboard');
-      },
-      () => {
-        toast.error('Failed to copy data to clipboard');
-      },
-    );
   };
 
   const onSubmit = ({ formData }: any) => {
     console.log('Data submitted: ', formData);
+
+    const dataStr = JSON.stringify(formData, null, 2);
+
+    navigator.clipboard.writeText(dataStr).then(
+      () => toast.success('Data copied to clipboard'),
+      () => toast.error('Failed to copy data to clipboard'),
+    );
+
     setDidSubmit(true);
   };
 
