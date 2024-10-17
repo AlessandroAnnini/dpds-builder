@@ -23,13 +23,15 @@ function App() {
         </span>
         - Explore & Edit Edition
       </h2>
-      <div className="mb-4">
-        <Button variant="outline" onClick={handleUseDataProductSchemaBtn}>
-          Data Product Descriptor Specs
-        </Button>
+      <div className="flex flex-row items-center space-x-4 pb-2">
+        <div>
+          <Button variant="outline" onClick={handleUseDataProductSchemaBtn}>
+            Data Product Descriptor Specs
+          </Button>
+        </div>
+        <span className="text-lg font-bold">or</span>{' '}
+        <SchemaLoader onSchemaLoaded={setSchema} />
       </div>
-      <span className="text-lg font-bold">or</span>{' '}
-      <SchemaLoader onSchemaLoaded={setSchema} />
       {schema && (
         <div className="mt-4">
           <DynamicForm schema={schema} />

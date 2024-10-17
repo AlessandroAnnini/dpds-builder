@@ -1,5 +1,5 @@
-import React, { ChangeEvent } from "react";
-import Ajv, { AnySchema } from "ajv";
+import React, { ChangeEvent } from 'react';
+import Ajv, { AnySchema } from 'ajv';
 
 interface SchemaLoaderProps {
   onSchemaLoaded: (schema: AnySchema) => void;
@@ -28,7 +28,7 @@ export const SchemaLoader: React.FC<SchemaLoaderProps> = ({
       // Access the resolved schema
       onSchemaLoaded(validate.schema);
     } catch (error) {
-      console.error("Error parsing schema:", error);
+      console.error('Error parsing schema:', error);
     }
   };
 
@@ -40,12 +40,5 @@ export const SchemaLoader: React.FC<SchemaLoaderProps> = ({
     return response.json();
   };
 
-  return (
-    <input
-      type="file"
-      accept=".json"
-      onChange={handleFileChange}
-      className="mb-4"
-    />
-  );
+  return <input type="file" accept=".json" onChange={handleFileChange} />;
 };
