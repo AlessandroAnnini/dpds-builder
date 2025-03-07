@@ -1,5 +1,5 @@
 import React, { ChangeEvent } from 'react';
-import Ajv, { AnySchema } from 'ajv';
+import Ajv2020, { AnySchema } from 'ajv/dist/2020';
 
 interface SchemaLoaderProps {
   onSchemaLoaded: (schema: AnySchema) => void;
@@ -16,28 +16,23 @@ export const SchemaLoader: React.FC<SchemaLoaderProps> = ({
       const content = await file.text();
       const rawSchema = JSON.parse(content);
 
-      const ajv = new Ajv({
-        allErrors: true,
+      // Use Ajv2020 with strict mode disabled
+      const ajv = new Ajv2020({
         strict: false,
-        loadSchema: loadSchema,
+        allowUnionTypes: true,
       });
 
-      // Compile the schema asynchronously to resolve $ref
-      const validate = ajv.compile(rawSchema);
+      // Validate the schema
+      const isValid = ajv.validateSchema(rawSchema);
+      if (!isValid) {
+        console.warn('Schema validation warnings:', ajv.errors);
+      }
 
       // Access the resolved schema
-      onSchemaLoaded(validate.schema);
+      onSchemaLoaded(rawSchema);
     } catch (error) {
       console.error('Error parsing schema:', error);
     }
-  };
-
-  const loadSchema = async (uri: string) => {
-    const response = await fetch(uri);
-    if (!response.ok) {
-      throw new Error(`Unable to load schema from ${uri}`);
-    }
-    return response.json();
   };
 
   return <input type="file" accept=".json" onChange={handleFileChange} />;

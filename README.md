@@ -1,50 +1,129 @@
-# React + TypeScript + Vite
+# DPDS Builder
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<div align="center">
 
-Currently, two official plugins are available:
+![Version](https://img.shields.io/badge/Version-1.0.1-blue?style=for-the-badge)
+![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+A dynamic editor for Data Product Descriptor Specifications with JSON Schema validation.
 
-## Expanding the ESLint configuration
+</div>
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## 📋 Overview
 
-- Configure the top-level `parserOptions` property like this:
+DPDS Builder is a specialized tool designed to streamline the creation and editing of Data Product Descriptor Specifications. It provides an interactive interface to manipulate JSON data conforming to predefined schemas, with built-in validation and a user-friendly form interface.
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## ✨ Key Features
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+- 🔄 **Dynamic Form Generation** - Automatically generates interactive forms from JSON schemas
+- 📋 **Data Product Schema Support** - Built-in support for Data Product Descriptor Specifications
+- 🔍 **Schema Validation** - Real-time validation of form data against the loaded schema
+- 📤 **Data Import/Export** - Load existing JSON data and schemas from files
+- 🎨 **Modern UI** - Clean, responsive interface built with React and Tailwind CSS
+- 📝 **Custom UI Schemas** - Control the appearance and behavior of form fields
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+## 🚀 Getting Started
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+### Prerequisites
+
+- Node.js (version 14.18+ or 16+)
+- npm, yarn, or pnpm
+
+### Installation
+
+1. Clone this repository:
+
+   ```bash
+   git clone https://github.com/yourusername/dpds-builder.git
+   cd dpds-builder
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   npm install
+   # or
+   yarn
+   # or
+   pnpm install
+   ```
+
+3. Start the development server:
+
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   # or
+   pnpm dev
+   ```
+
+4. Open your browser and visit `http://localhost:5173`
+
+## 💻 Usage
+
+### Loading a Schema
+
+The application provides two ways to load a schema:
+
+1. **Use Built-in DPDS Schema**: Click the "Data Product Descriptor Specs" button to load the built-in schema.
+2. **Load Custom Schema**: Use the schema loader to upload your own JSON Schema file.
+
+### Loading Form Data
+
+Once a schema is loaded, you can:
+
+1. Click on "Load Form Data" to import existing JSON data that conforms to the schema.
+2. The imported data will be validated against the schema automatically.
+3. Validation results will be displayed as toast notifications.
+
+### Editing Form Data
+
+The dynamic form interface allows you to:
+
+1. Edit data through a user-friendly form that's generated based on the schema.
+2. Reset the form to its initial state using the "Reset" button.
+3. Validate data as you type (optional).
+
+## 🧩 Core Components
+
+### App Component
+
+The main application container that:
+
+- Manages application state
+- Handles schema loading
+- Orchestrates the interaction between different components
+
+### DynamicForm Component
+
+A powerful form generator that:
+
+- Converts JSON schemas into interactive forms
+- Provides validation against the schema
+- Supports custom UI schemas for tailored appearances
+- Handles form data changes and submissions
+
+### SchemaLoader Component
+
+Allows users to:
+
+- Upload custom JSON Schema files
+- Process and validate the schemas before use
+
+### DataLoader Component
+
+Enables users to:
+
+- Import existing JSON data files
+- Validate the data against the current schema
+- Display feedback about validation results
+
+## 🛠️ Technologies Used
+
+- **React** - UI framework
+- **TypeScript** - Type-safe code
+- **Tailwind CSS** - Styling
+- **React JSON Schema Form** - Form generation
+- **Ajv** - JSON Schema validation
+- **Shadcn UI** - UI components

@@ -1,713 +1,359 @@
-export type Root = {
-  $id: string;
-  $schema: string;
-  $comment: string;
-  title: string;
-  description: string;
-  type: string;
-  properties: {
-    dataProductDescriptor: {
-      description: string;
-      type: string;
-      format: string;
-    };
-    info: {
-      $ref: string;
-    };
-    interfaceComponents: {
-      $ref: string;
-    };
-    internalComponents: {
-      $ref: string;
-    };
-    components: {
-      $ref: string;
-    };
-    tags: {
-      description: string;
-      type: string;
-      items: {
-        type: string;
-      };
-    };
-    externalDocs: {
-      $ref: string;
-    };
+/**
+ * TypeScript definitions for Data Product Descriptor Specification (DPDS)
+ * Based on DPDS v1.0.0
+ * @see https://dpds.opendatamesh.org/specifications/dpds/1.0.0/
+ */
+
+/**
+ * Base Entity interface that many components extend
+ */
+export interface Entity {
+  /** Unique identifier */
+  id?: string;
+  /** Fully qualified name */
+  fullyQualifiedName?: string;
+  /** Entity type */
+  entityType?: string;
+  /** Name of the entity (required) */
+  name: string;
+  /** Version of the entity (required) */
+  version: string;
+  /** Display name */
+  displayName?: string;
+  /** Description */
+  description?: string;
+  /** Component group */
+  componentGroup?: string;
+  /** Tags */
+  tags?: string[];
+  /** External documentation */
+  externalDocs?: ExternalResource;
+  /** Any additional custom properties */
+  [key: string]: any;
+}
+
+/**
+ * External Resource Object
+ * @see https://dpds.opendatamesh.org/specifications/dpds/1.0.0/#externalResourceObject
+ */
+export interface ExternalResource {
+  /** Description of the external resource */
+  description?: string;
+  /** Media type */
+  mediaType?: string;
+  /** URL reference (required) */
+  $href: string;
+}
+
+/**
+ * Reference Object
+ * @see https://dpds.opendatamesh.org/specifications/dpds/1.0.0/#referenceObject
+ */
+export interface Reference {
+  /** URI reference (required) */
+  $ref: string;
+  /** Media type */
+  mediaType?: string;
+  /** Description */
+  description?: string;
+}
+
+/**
+ * Owner Object
+ * @see https://dpds.opendatamesh.org/specifications/dpds/1.0.0/#ownerObject
+ */
+export interface Owner {
+  /** Owner ID (required) */
+  id: string;
+  /** Owner name */
+  name?: string;
+  /** Any additional custom properties */
+  [key: string]: any;
+}
+
+/**
+ * Contact Point Object
+ * @see https://dpds.opendatamesh.org/specifications/dpds/1.0.0/#contactPointObject
+ */
+export interface ContactPoint {
+  /** Name of the contact point */
+  name?: string;
+  /** Description */
+  description?: string;
+  /** Communication channel */
+  channel?: string;
+  /** Address */
+  address?: string;
+  /** Any additional custom properties */
+  [key: string]: any;
+}
+
+/**
+ * Info Object
+ * @see https://dpds.opendatamesh.org/specifications/dpds/1.0.0/#infoObject
+ */
+export interface Info {
+  /** Unique identifier */
+  id?: string;
+  /** Fully qualified name (required) */
+  fullyQualifiedName: string;
+  /** Entity type */
+  entityType?: string;
+  /** Name of the data product (required) */
+  name: string;
+  /** Version of the data product (required) */
+  version: string;
+  /** Display name */
+  displayName?: string;
+  /** Description */
+  description?: string;
+  /** Domain (required) */
+  domain: string;
+  /** Owner information (required) */
+  owner: Owner;
+  /** Contact points */
+  contactPoints?: ContactPoint[];
+  /** Any additional custom properties */
+  [key: string]: any;
+}
+
+/**
+ * Standard Definition Object
+ * @see https://dpds.opendatamesh.org/specifications/dpds/1.0.0/#standardDefinitionObject
+ */
+export interface StandardDefinition extends Entity {
+  /** Specification used */
+  specification: string;
+  /** Specification version */
+  specificationVersion?: string;
+  /** Definition content - can be an object, string or reference */
+  definition: any;
+}
+
+/**
+ * Promises Object
+ * @see https://dpds.opendatamesh.org/specifications/dpds/1.0.0/#promisesObject
+ */
+export interface Promises {
+  /** Platform */
+  platform?: string;
+  /** Services type */
+  servicesType?: string;
+  /** API definition */
+  api?: StandardDefinition;
+  /** Deprecation policy */
+  deprecationPolicy?: StandardDefinition;
+  /** Service level objectives */
+  slo?: StandardDefinition;
+  /** Any additional custom properties */
+  [key: string]: any;
+}
+
+/**
+ * Expectations Object
+ * @see https://dpds.opendatamesh.org/specifications/dpds/1.0.0/#expectationsObject
+ */
+export interface Expectations {
+  /** Audience expectations */
+  audience?: StandardDefinition;
+  /** Usage expectations */
+  usage?: StandardDefinition;
+  /** Any additional custom properties */
+  [key: string]: any;
+}
+
+/**
+ * Obligations Object
+ * @see https://dpds.opendatamesh.org/specifications/dpds/1.0.0/#obligationsObject
+ */
+export interface Obligations {
+  /** Terms and conditions */
+  termsAndConditions?: StandardDefinition;
+  /** Billing policy */
+  billingPolicy?: StandardDefinition;
+  /** Service level agreement */
+  sla?: StandardDefinition;
+  /** Any additional custom properties */
+  [key: string]: any;
+}
+
+/**
+ * Base Port interface that specific port types extend
+ */
+export interface Port extends Entity {
+  /** Port promises */
+  promises?: Promises | Reference;
+  /** Port expectations */
+  expectations?: Expectations | Reference;
+  /** Port obligations */
+  obligations?: Obligations | Reference;
+}
+
+/**
+ * Input Port Component
+ * @see https://dpds.opendatamesh.org/specifications/dpds/1.0.0/#inputPortComponent
+ */
+export interface InputPort extends Port {}
+
+/**
+ * Output Port Component
+ * @see https://dpds.opendatamesh.org/specifications/dpds/1.0.0/#outputPortComponent
+ */
+export interface OutputPort extends Port {}
+
+/**
+ * Discovery Port Component
+ * @see https://dpds.opendatamesh.org/specifications/dpds/1.0.0/#discoveryPortComponent
+ */
+export interface DiscoveryPort extends Port {}
+
+/**
+ * Observability Port Component
+ * @see https://dpds.opendatamesh.org/specifications/dpds/1.0.0/#observabilityPortComponent
+ */
+export interface ObservabilityPort extends Port {}
+
+/**
+ * Control Port Component
+ * @see https://dpds.opendatamesh.org/specifications/dpds/1.0.0/#controlPortComponent
+ */
+export interface ControlPort extends Port {}
+
+/**
+ * Interface Components Object
+ * @see https://dpds.opendatamesh.org/specifications/dpds/1.0.0/#interfaceComponentsObject
+ */
+export interface InterfaceComponents {
+  /** Input ports */
+  inputPorts?: (InputPort | Reference)[];
+  /** Output ports (required) */
+  outputPorts: (OutputPort | Reference)[];
+  /** Discovery ports */
+  discoveryPorts?: (DiscoveryPort | Reference)[];
+  /** Observability ports */
+  observabilityPorts?: (ObservabilityPort | Reference)[];
+  /** Control ports */
+  controlPorts?: (ControlPort | Reference)[];
+}
+
+/**
+ * Application Component
+ * @see https://dpds.opendatamesh.org/specifications/dpds/1.0.0/#applicationComponent
+ */
+export interface ApplicationComponent extends Entity {
+  /** Platform */
+  platform?: string;
+  /** Application type */
+  applicationType?: string;
+  /** Components this application consumes from */
+  consumesFrom?: string[];
+  /** Components this application provides to */
+  providesTo?: string[];
+  /** Components this application depends on */
+  dependsOn?: string[];
+}
+
+/**
+ * Infrastructural Component
+ * @see https://dpds.opendatamesh.org/specifications/dpds/1.0.0/#infrastructuralComponent
+ */
+export interface InfrastructuralComponent extends Entity {
+  /** Platform */
+  platform?: string;
+  /** Infrastructure type */
+  infrastructureType?: string;
+  /** Components this infrastructure depends on */
+  dependsOn?: string[];
+}
+
+/**
+ * Lifecycle Task Info Object
+ * @see https://dpds.opendatamesh.org/specifications/dpds/1.0.0/#lifecycleTaskInfoObject
+ */
+export interface LifecycleTaskInfo {
+  /** Name of the task */
+  name?: string;
+  /** Order of execution */
+  order?: number;
+  /** Service to execute the task */
+  service?: ExternalResource;
+  /** Template for the task */
+  template?: StandardDefinition | Reference;
+  /** Configurations for the task */
+  configurations?: object | Reference;
+  /** Any additional custom properties */
+  [key: string]: any;
+}
+
+/**
+ * Internal Components Object
+ * @see https://dpds.opendatamesh.org/specifications/dpds/1.0.0/#internalComponentsObject
+ */
+export interface InternalComponents {
+  /** Lifecycle information */
+  lifecycleInfo?: {
+    [key: string]: LifecycleTaskInfo[];
   };
-  required: Array<string>;
-  $defs: {
-    info: {
-      $comment: string;
-      title: string;
-      description: string;
-      type: string;
-      properties: {
-        id: {
-          description: string;
-          type: string;
-          readOnly: boolean;
-          format: string;
-        };
-        fullyQualifiedName: {
-          description: string;
-          type: string;
-          format: string;
-        };
-        entityType: {
-          description: string;
-          type: string;
-          readOnly: boolean;
-          format: string;
-        };
-        name: {
-          description: string;
-          type: string;
-          format: string;
-        };
-        version: {
-          description: string;
-          type: string;
-          format: string;
-        };
-        displayName: {
-          description: string;
-          type: string;
-        };
-        description: {
-          description: string;
-          type: string;
-        };
-        domain: {
-          description: string;
-          type: string;
-          format: string;
-        };
-        owner: {
-          $ref: string;
-        };
-        contactPoints: {
-          type: string;
-          items: {
-            $ref: string;
-          };
-        };
-      };
-      required: Array<string>;
-      patternProperties: {
-        "^x-": boolean;
-      };
-    };
-    owner: {
-      $comment: string;
-      title: string;
-      description: string;
-      type: string;
-      properties: {
-        id: {
-          description: string;
-          type: string;
-        };
-        name: {
-          description: string;
-          type: string;
-        };
-      };
-      required: Array<string>;
-      patternProperties: {
-        "^x-": boolean;
-      };
-    };
-    contactPoint: {
-      $comment: string;
-      title: string;
-      description: string;
-      type: string;
-      properties: {
-        name: {
-          description: string;
-          type: string;
-          format: string;
-        };
-        description: {
-          description: string;
-          type: string;
-        };
-        channel: {
-          description: string;
-          type: string;
-        };
-        address: {
-          description: string;
-          type: string;
-        };
-      };
-      patternProperties: {
-        "^x-": boolean;
-      };
-    };
-    interfaceComponents: {
-      $comment: string;
-      title: string;
-      description: string;
-      type: string;
-      properties: {
-        inputPorts: {
-          type: string;
-          items: {
-            $ref: string;
-          };
-        };
-        outputPorts: {
-          type: string;
-          items: {
-            $ref: string;
-          };
-        };
-        discoveryPorts: {
-          type: string;
-          items: {
-            $ref: string;
-          };
-        };
-        observabilityPorts: {
-          type: string;
-          items: {
-            $ref: string;
-          };
-        };
-        controlPorts: {
-          type: string;
-          items: {
-            $ref: string;
-          };
-        };
-      };
-      required: Array<string>;
-    };
-    inputPortOrReference: {
-      oneOf: Array<{
-        $ref: string;
-      }>;
-    };
-    inputPort: {
-      $comment: string;
-      title: string;
-      description: string;
-      type: string;
-      allOf: Array<{
-        $ref: string;
-      }>;
-      patternProperties: {
-        "^x-": boolean;
-      };
-    };
-    outputPortOrReference: {
-      oneOf: Array<{
-        $ref: string;
-      }>;
-    };
-    outputPort: {
-      $comment: string;
-      title: string;
-      description: string;
-      type: string;
-      allOf: Array<{
-        $ref: string;
-      }>;
-      patternProperties: {
-        "^x-": boolean;
-      };
-    };
-    discoveryPortOrReference: {
-      oneOf: Array<{
-        $ref: string;
-      }>;
-    };
-    discoveryPort: {
-      $comment: string;
-      title: string;
-      description: string;
-      type: string;
-      allOf: Array<{
-        $ref: string;
-      }>;
-      patternProperties: {
-        "^x-": boolean;
-      };
-    };
-    observabilityPortOrReference: {
-      oneOf: Array<{
-        $ref: string;
-      }>;
-    };
-    observabilityPort: {
-      $comment: string;
-      title: string;
-      description: string;
-      type: string;
-      allOf: Array<{
-        $ref: string;
-      }>;
-      patternProperties: {
-        "^x-": boolean;
-      };
-    };
-    controlPortOrReference: {
-      oneOf: Array<{
-        $ref: string;
-      }>;
-    };
-    controlPort: {
-      $comment: string;
-      title: string;
-      description: string;
-      type: string;
-      allOf: Array<{
-        $ref: string;
-      }>;
-      patternProperties: {
-        "^x-": boolean;
-      };
-    };
-    port: {
-      properties: {
-        promises: {
-          $ref: string;
-        };
-        expectations: {
-          $ref: string;
-        };
-        obligations: {
-          $ref: string;
-        };
-      };
-    };
-    promisesOrReference: {
-      oneOf: Array<{
-        $ref: string;
-      }>;
-    };
-    promises: {
-      $comment: string;
-      title: string;
-      description: string;
-      type: string;
-      properties: {
-        platform: {
-          description: string;
-          type: string;
-        };
-        servicesType: {
-          description: string;
-          type: string;
-        };
-        api: {
-          $ref: string;
-        };
-        deprecationPolicy: {
-          $ref: string;
-        };
-        slo: {
-          $ref: string;
-        };
-      };
-      patternProperties: {
-        "^x-": boolean;
-      };
-    };
-    definition: {
-      properties: {
-        specification: {
-          type: string;
-        };
-        specificationVersion: {
-          description: string;
-          type: string;
-        };
-        definition: {
-          $ref: string;
-        };
-      };
-      required: Array<string>;
-      patternProperties: {
-        "^x-": boolean;
-      };
-    };
-    standardDefinition: {
-      $comment: string;
-      title: string;
-      description: string;
-      type: string;
-      allOf: Array<{
-        $ref: string;
-      }>;
-      patternProperties: {
-        "^x-": boolean;
-      };
-    };
-    expectationsOrReference: {
-      oneOf: Array<{
-        $ref: string;
-      }>;
-    };
-    expectations: {
-      $comment: string;
-      title: string;
-      description: string;
-      type: string;
-      properties: {
-        audience: {
-          $ref: string;
-        };
-        usage: {
-          $ref: string;
-        };
-      };
-      patternProperties: {
-        "^x-": boolean;
-      };
-    };
-    obligationsOrReference: {
-      oneOf: Array<{
-        $ref: string;
-      }>;
-    };
-    obligations: {
-      $comment: string;
-      title: string;
-      description: string;
-      type: string;
-      properties: {
-        termsAndConditions: {
-          $ref: string;
-        };
-        billingPolicy: {
-          $ref: string;
-        };
-        sla: {
-          $ref: string;
-        };
-      };
-      patternProperties: {
-        "^x-": boolean;
-      };
-    };
-    internalComponents: {
-      $comment: string;
-      title: string;
-      description: string;
-      type: string;
-      properties: {
-        lifecycleInfo: {
-          type: string;
-          additionalProperties: {
-            type: string;
-            items: {
-              $ref: string;
-            };
-          };
-        };
-        applicationComponents: {
-          description: string;
-          type: string;
-          items: {
-            $ref: string;
-          };
-        };
-        infrastructuralComponents: {
-          description: string;
-          type: string;
-          items: {
-            $ref: string;
-          };
-        };
-      };
-    };
-    lifecycleTaskInfo: {
-      $comment: string;
-      title: string;
-      description: string;
-      type: string;
-      properties: {
-        name: {
-          type: string;
-        };
-        order: {
-          type: string;
-        };
-        service: {
-          $ref: string;
-        };
-        template: {
-          $ref: string;
-        };
-        configurations: {
-          $ref: string;
-        };
-      };
-      required: Array<any>;
-      patternProperties: {
-        "^x-": boolean;
-      };
-    };
-    standardDefinitionOrReference: {
-      oneOf: Array<{
-        $ref: string;
-      }>;
-    };
-    applicationComponentOrReference: {
-      oneOf: Array<{
-        $ref: string;
-      }>;
-    };
-    applicationComponent: {
-      $comment: string;
-      title: string;
-      description: string;
-      type: string;
-      allOf: Array<{
-        $ref?: string;
-        title?: string;
-        properties?: {
-          platform: {
-            description: string;
-            type: string;
-          };
-          applicationType: {
-            description: string;
-            type: string;
-          };
-          consumesFrom: {
-            description: string;
-            type: string;
-            items: {
-              type: string;
-            };
-          };
-          providesTo: {
-            description: string;
-            type: string;
-            items: {
-              type: string;
-            };
-          };
-          dependsOn: {
-            description: string;
-            type: string;
-            items: {
-              type: string;
-            };
-          };
-        };
-      }>;
-      patternProperties: {
-        "^x-": boolean;
-      };
-    };
-    infrastructuralComponentOrReference: {
-      oneOf: Array<{
-        $ref: string;
-      }>;
-    };
-    infrastructuralComponent: {
-      $comment: string;
-      title: string;
-      description: string;
-      type: string;
-      allOf: Array<{
-        $ref?: string;
-        title?: string;
-        properties?: {
-          platform: {
-            description: string;
-            type: string;
-          };
-          infrastructureType: {
-            description: string;
-            type: string;
-          };
-          dependsOn: {
-            description: string;
-            type: string;
-            items: {
-              type: string;
-            };
-          };
-        };
-      }>;
-    };
-    components: {
-      $comment: string;
-      title: string;
-      description: string;
-      type: string;
-      properties: {
-        inputPorts: {
-          description: string;
-          type: string;
-          additionalProperties: {
-            $ref: string;
-          };
-        };
-        outputPorts: {
-          description: string;
-          type: string;
-          additionalProperties: {
-            $ref: string;
-          };
-        };
-        discoveryPorts: {
-          description: string;
-          type: string;
-          additionalProperties: {
-            $ref: string;
-          };
-        };
-        observabilityPorts: {
-          description: string;
-          type: string;
-          additionalProperties: {
-            $ref: string;
-          };
-        };
-        controlPorts: {
-          description: string;
-          type: string;
-          additionalProperties: {
-            $ref: string;
-          };
-        };
-        applicationComponents: {
-          description: string;
-          type: string;
-          additionalProperties: {
-            $ref: string;
-          };
-        };
-        infrastructuralComponents: {
-          description: string;
-          type: string;
-          additionalProperties: {
-            $ref: string;
-          };
-        };
-      };
-      patternProperties: {
-        "^x-": boolean;
-      };
-    };
-    reference: {
-      $comment: string;
-      title: string;
-      description: string;
-      type: string;
-      properties: {
-        $ref: {
-          description: string;
-          type: string;
-          format: string;
-        };
-        mediaType: {
-          description: string;
-          type: string;
-        };
-        description: {
-          description: string;
-          type: string;
-        };
-      };
-      required: Array<string>;
-    };
-    externalResource: {
-      $comment: string;
-      title: string;
-      description: string;
-      type: string;
-      properties: {
-        description: {
-          description: string;
-          type: string;
-        };
-        mediaType: {
-          description: string;
-          type: string;
-        };
-        $href: {
-          description: string;
-          type: string;
-          format: string;
-        };
-      };
-      required: Array<string>;
-    };
-    objectOrReference: {
-      oneOf: Array<{
-        title?: string;
-        description?: string;
-        type?: string;
-        $ref?: string;
-      }>;
-    };
-    objectOrStringOrReference: {
-      oneOf: Array<{
-        title: string;
-        description: string;
-        type: string;
-      }>;
-    };
-    entity: {
-      properties: {
-        id: {
-          description: string;
-          type: string;
-          format: string;
-          readOnly: boolean;
-        };
-        fullyQualifiedName: {
-          description: string;
-          type: string;
-          format: string;
-        };
-        entityType: {
-          description: string;
-          type: string;
-          format: string;
-        };
-        name: {
-          description: string;
-          type: string;
-          format: string;
-        };
-        version: {
-          description: string;
-          type: string;
-          format: string;
-        };
-        displayName: {
-          description: string;
-          type: string;
-        };
-        description: {
-          description: string;
-          type: string;
-        };
-        componentGroup: {
-          description: string;
-          type: string;
-          format: string;
-        };
-        tags: {
-          description: string;
-          type: string;
-          items: {
-            type: string;
-          };
-        };
-        externalDocs: {
-          $ref: string;
-        };
-      };
-      required: Array<string>;
-    };
+  /** Application components */
+  applicationComponents?: (ApplicationComponent | Reference)[];
+  /** Infrastructural components */
+  infrastructuralComponents?: (InfrastructuralComponent | Reference)[];
+}
+
+/**
+ * Components Object
+ * @see https://dpds.opendatamesh.org/specifications/dpds/1.0.0/#componentsObject
+ */
+export interface Components {
+  /** Reusable input ports */
+  inputPorts?: {
+    [key: string]: InputPort | Reference;
   };
-};
+  /** Reusable output ports */
+  outputPorts?: {
+    [key: string]: OutputPort | Reference;
+  };
+  /** Reusable discovery ports */
+  discoveryPorts?: {
+    [key: string]: DiscoveryPort | Reference;
+  };
+  /** Reusable observability ports */
+  observabilityPorts?: {
+    [key: string]: ObservabilityPort | Reference;
+  };
+  /** Reusable control ports */
+  controlPorts?: {
+    [key: string]: ControlPort | Reference;
+  };
+  /** Reusable application components */
+  applicationComponents?: {
+    [key: string]: ApplicationComponent | Reference;
+  };
+  /** Reusable infrastructural components */
+  infrastructuralComponents?: {
+    [key: string]: InfrastructuralComponent | Reference;
+  };
+  /** Any additional custom properties */
+  [key: string]: any;
+}
+
+/**
+ * Data Product Descriptor
+ * @see https://dpds.opendatamesh.org/specifications/dpds/1.0.0/#dpdsObject
+ */
+export interface DataProductDescriptor {
+  /** Data product descriptor version (required) */
+  dataProductDescriptor: string;
+  /** Information about the data product (required) */
+  info: Info;
+  /** Interface components (required) */
+  interfaceComponents: InterfaceComponents;
+  /** Internal components */
+  internalComponents?: InternalComponents;
+  /** Reusable components */
+  components?: Components;
+  /** Tags */
+  tags?: string[];
+  /** External documentation */
+  externalDocs?: ExternalResource;
+}

@@ -1,7 +1,7 @@
 {
   "name": "dpds-builder",
   "private": true,
-  "version": "0.0.3",
+  "version": "1.0.1",
   "type": "module",
   "author": "Alessandro Annini",
   "scripts": {
@@ -11,15 +11,21 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@codemirror/lang-json": "^6.0.1",
+    "@codemirror/language": "^6.10.8",
+    "@codemirror/state": "^6.5.2",
+    "@codemirror/theme-one-dark": "^6.1.2",
+    "@codemirror/view": "^6.36.4",
     "@hookform/resolvers": "^3.9.0",
     "@radix-ui/react-collapsible": "^1.1.1",
     "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-slot": "^1.1.0",
-    "@rjsf/core": "^5.21.2",
-    "@rjsf/fluent-ui": "^5.21.2",
-    "@rjsf/mui": "^5.21.2",
-    "@rjsf/utils": "^5.21.2",
-    "@rjsf/validator-ajv8": "^5.21.2",
+    "@rjsf/core": "^5.24.7",
+    "@rjsf/fluent-ui": "^5.24.7",
+    "@rjsf/mui": "^5.24.7",
+    "@rjsf/utils": "^5.24.7",
+    "@rjsf/validator-ajv8": "^5.24.7",
+    "@uiw/react-codemirror": "^4.23.10",
     "ajv": "^8.17.1",
     "ajv-errors": "^3.0.0",
     "ajv-formats": "^3.0.1",
@@ -35,8 +41,8 @@
     "sonner": "^1.5.0",
     "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7",
-    "zod": "^3.23.8",
-    "zustand": "^5.0.0"
+    "zod": "^3.24.2",
+    "zustand": "^5.0.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.11.1",

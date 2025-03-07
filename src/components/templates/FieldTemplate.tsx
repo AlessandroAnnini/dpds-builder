@@ -1,10 +1,10 @@
-import { FieldTemplateProps } from "@rjsf/utils";
+import { FieldTemplateProps } from '@rjsf/utils';
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@/components/ui/collapsible";
-import { ChevronsUpDown } from "lucide-react";
+} from '@/components/ui/collapsible';
+import { ChevronsUpDown } from 'lucide-react';
 
 function FieldTemplate(props: FieldTemplateProps) {
   const {
@@ -22,25 +22,35 @@ function FieldTemplate(props: FieldTemplateProps) {
   } = props;
 
   const hasErrors =
-    errors && errors.props.errors && errors.props.errors.length > 0;
-  const isArray = schema.type === "array" && formData.length > 0;
-  const isString = schema.type === "string";
-  const isObject = schema.type === "object";
+    errors &&
+    errors.props &&
+    errors.props.errors &&
+    Array.isArray(errors.props.errors) &&
+    errors.props.errors.length > 0;
+
+  const isArrayWithData =
+    schema.type === 'array' && formData && formData.length > 0;
+  const isString = schema.type === 'string';
+  const isObject = schema.type === 'object';
 
   if (isString) {
     return (
       <div
-        className={`${classNames} my-2 ${hasErrors ? "border-r-red-600 border-r-8" : ""}`}
+        className={`${classNames} my-2 ${
+          hasErrors ? 'border-r-red-600 border-r-8' : ''
+        }`}
         style={style}
       >
         <div className="px-4">
           <div className="flex flex-row items-center space-x-2">
             <label
               htmlFor={id}
-              className={`${hasErrors ? "text-red-700 font-semibold" : ""} ${required ? "font-bold" : ""}`}
+              className={`${hasErrors ? 'text-red-700 font-semibold' : ''} ${
+                required ? 'font-bold' : ''
+              }`}
             >
               {label}
-              {required ? "*" : null}
+              {required ? '*' : null}
             </label>
             {children}
           </div>
@@ -53,7 +63,9 @@ function FieldTemplate(props: FieldTemplateProps) {
 
   return (
     <div
-      className={`${classNames} mix-blend-multiply bg-slate-50 my-2 py-2 ${isObject || !isArray ? "border-2" : "py-10"}  ${hasErrors ? "border-r-red-600 border-r-8" : ""}`}
+      className={`${classNames} mix-blend-multiply bg-slate-50 my-2 py-2 ${
+        isObject || !isArrayWithData ? 'border-2' : 'py-10'
+      }  ${hasErrors ? 'border-r-red-600 border-r-8' : ''}`}
       style={style}
     >
       <Collapsible>
@@ -62,11 +74,13 @@ function FieldTemplate(props: FieldTemplateProps) {
             <ChevronsUpDown className="h-5 w-5" />
             <label
               htmlFor={id}
-              className={`flex flex-row text-xl font-semibold ${hasErrors ? "text-red-700 font-semibold" : ""}`}
+              className={`flex flex-row text-xl font-semibold ${
+                hasErrors ? 'text-red-700 font-semibold' : ''
+              }`}
             >
               <div dangerouslySetInnerHTML={{ __html: label }} />
               {/* {label} */}
-              {required ? "*" : null}
+              {required ? '*' : null}
             </label>
             <span className="sr-only">Toggle</span>
           </CollapsibleTrigger>
